@@ -12,55 +12,51 @@ import os
 from utils import flatten_dic
 
 # the path to the directory of the data
-# dir_path = os.path.dirname(os.path.realpath(__file__))
-dir_path = "E:\\MyData\\KLAP\\"
-FIRST_YEAR = 2010
-LAST_YEAR = 2014
+# dir_raw_data = os.path.dirname(os.path.realpath(__file__))
+dir_raw_data = "data/raw/2010-2019-races/"
 
 
 def main():
     """
-    Gather all data from each year into a csv file
+    Gather all data from horses' performances  from each year into a csv file
     """
     print(
         "Il y a %d fichiers de course dans le dossier %s"
-        % (
-            len(listdir(dir_path + "Raw\\2010-2019-races")),
-            dir_path + "Raw\\2010-2019-races",
-        )
+        % (len(listdir(dir_raw_data)), dir_raw_data,)
     )
     frames = []
-    """
-    yearsCount = Counter([course[:4] for course in listdir(dir_path+"Raw\\2010-2019-races")])
-    print(yearsCount)
-    plt.bar(yearsCount.keys(), yearsCount.values())
-    plt.ylabel("Nombre de courses")
-    plt.title("Data disponible par année")
-    plt.show()
-    """
     year = "2010"
-    resultYear = pd.DataFrame({})
 
-    for file in listdir(dir_path + "Raw\\2010-2019-races"):
+    for file in listdir(dir_raw_data):
         # Lors d'un changement d'année, on exporte le dataframe.
         # Hypothèse : les fichiers sont dans l'ordre alphabétique (=chronologique)
         if file[:4] != year:
-            resultYear = pd.DataFrame(frames)
-            resultYear.to_csv(
-                dir_path + "CleanData\\horses%s.csv" % year, encoding="utf-8", sep=";"
-            )
-            frames = []
-            print(
-                "CSV for year %s created at path %s"
-                % (year, dir_path + "CleanData\\horses%s.csv" % year)
-            )
-            year = file[:4]
+            year = save_df(frames, file, year)
 
-        with open(
-            dir_path + "Raw\\2010-2019-races\\" + file, encoding="utf-8"
-        ) as json_file:
+        with open(dir_raw_data + file, encoding="utf-8") as json_file:
             data = json.load(json_file)
-        frames += [flatten_dic(cheval) for cheval in data["partants"]]
+            frames += [flatten_dic(cheval) for cheval in data["partants"]]
+
+    save_df(frames, file, year)
+
+
+def save_df(frames, file, year):
+    """Save the dataframe to a csv file, while returning the next year
+
+    Arguments:
+        frames {DataFrame} -- DataFrame containing all info from the last year
+        file {String} -- The string name file of the new year file
+        year {String} -- Current year of dataframe infos
+    Returns the next year of files
+    """
+    resultYear = pd.DataFrame(frames)
+    resultYear.to_csv("data\\interim\\horses%s.csv" % year, encoding="utf-8", sep=";")
+    frames = []
+    print(
+        "CSV for year %s created at path %s"
+        % (year, "data\\interim\\horses%s.csv" % year)
+    )
+    return file[:4]
 
 
 if __name__ == "__main__":
@@ -68,16 +64,4 @@ if __name__ == "__main__":
     main()
     stop = timeit.default_timer()
     print("Time to process:", stop - start)
-
-
-"""
-First method : 3mins to concatenate all the data : copie du df à chaque ajout
-Deuxième methode : 26 secondes ! mais des opérations a priori inutiles (transposée, etc)
-Troisième méthode : 0.5 secondes !! masterclass. 8 fois plus long sur un HDD que sur un SSD.
-1 mois = 4sec
-10 ans = 500sec
-
-Un mois = 16MB
-Un an = 200MB
-10 ans = 2GB
-"""
+    # 700 seconds to process
