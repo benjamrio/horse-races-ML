@@ -54,4 +54,11 @@ Nous avons mis en place [Classement elo](https://en.wikipedia.org/wiki/Elo_ratin
 ## Multivariate sequence prediction
 --------
 
+
+## Model evaluation
+Input : une course de chevaux avec des données sur les chevaux
+Output : un classement prédictif
+### Training and Test Set
+C'est un choix très important dans l'évaluation des modèles. 
+
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
