@@ -1,7 +1,6 @@
 # KLAP - Horse races prediction
-==============================
 
-Research project that aims to build predictive models to beat the bookmakers. Our client KLAP is a computer vision startup working on horse races, that wants to explore betting strategy. They gathered online scrapped data that we extracted, cleaned, processed, and used to build our models. 
+Student research project that aims to build predictive models to beat the bookmakers. Our client Alezan.IA is a computer vision startup working on horse races, that wants to explore betting strategy. They gathered online scrapped data that we extracted, cleaned, processed, and used to build our models. 
 
 
 ## Project Organization
@@ -46,19 +45,22 @@ Research project that aims to build predictive models to beat the bookmakers. Ou
     │       └── visualize.py
 
 # Feature extraction and preprocessing
-Parmi les attributs disponibles,
+,
 # Models
-Nous avons implementé différents modèles/méthodes afin de prédire le classement des courses.
+Different models have been implmented
 ## Elo
-Nous avons mis en place [Classement elo](https://en.wikipedia.org/wiki/Elo_rating_system) en s'inspirant de celui utilisé pour les échecs. Nous avons calculé leur élo avec 3 années de données de courses.
+To estimate horses' skills, we created an [elo rating](https://en.wikipedia.org/wiki/Elo_rating_system), inspired by the one used for chess. We implmented the model on three years of horse races.
+
+## Machine Learning Models
+SVM, MLP, k-NN comparisons
+
 ## Multivariate sequence prediction
---------
+---- TO DO
 
 
 ## Model evaluation
-Input : une course de chevaux avec des données sur les chevaux
-Output : un classement prédictif
-### Training and Test Set
-C'est un choix très important dans l'évaluation des modèles. 
+Input : a horse race, containg horses data coming from feature engineering
+Output : a predictive ranking of the race
+
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
